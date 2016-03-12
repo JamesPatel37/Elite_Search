@@ -11,7 +11,7 @@ from global_variables import *
 
 mainList = []  # add all nodes to this list
 wordHashMap={}
-
+searchQuery = "begins."
 mainDirectory = 'F:\\CS454-Python\\en';  # root path
 test_path="F:\CS454-Python\en\\articles\(\\1\\5"
 
@@ -34,25 +34,34 @@ def test_crawl():
         print each_file
         index_file_content("storage/"+each_file)
 def crawl():
-    for root, dirs, files in os.walk(mainDirectory):
-        for each_filename in files:
-            print "Crawling : "+each_filename
-            filename = str(each_filename)
-            file_path = os.path.realpath(os.path.join(root, filename))
+ #   for root, dirs, files in os.walk(mainDirectory):
+#        for each_filename in files:
+#            print "Crawling : "+each_filename
+#            filename = str(each_filename)
+#            file_path = os.path.realpath(os.path.join(root, filename))
 
 #read file
-            file_content = read_html(file_path)
+#            file_content = read_html(file_path)
 #get hashCode
-            hash_filename = get_hash(file_path,filename)
+#            hash_filename = get_hash(file_path,filename)
 #write file
-            write_html(file_content, hash_filename)
-#process file
+#            write_html(file_content, hash_filename)
 #process file
     file_array = os.listdir("storage")
+    file_counter = 0
     for each_file in file_array:
-        print each_file
+        file_counter+=1
+        print "Processing "+str(file_counter)+" : "+ each_file
         index_file_content("storage/"+each_file)
 
 crawl()
 for each_word in word_hash_map:
     print each_word+":"+str(word_hash_map[each_word])
+displayList = word_hash_map[searchQuery]
+
+#Write JSON
+with open('store.json', mode='a') as f:
+    json.dump(word_hash_map, f)
+
+for each_url in displayList:
+    print each_url
